@@ -45,7 +45,7 @@ shinyServer(function(input, output) {
     abline(h = c(-0.5, 0.5, 1.5), v = c(-0.25, 1.25), lwd = 2)
     text(x = rep(c(0,1), 2), y = rep(c(0,1), each = 2), labels = c(cellnote))
     
-    text(x = c(0.5, 0.5), y = c(0.25, 1.25), labels = c("RIGHT", "WRONG"))
+    text(x = c(0.5, 0.5), y = c(0.25, 1.25), labels = c("WRONG", "RIGHT"))
     text(x = c(0.5, 0.5), y = c(0,1), 
          labels = c(paste0(sum(!currPredictions==myData$Actual_)),
                     paste0(sum(currPredictions==myData$Actual_))),
