@@ -16,11 +16,11 @@ dashboardPage(
       box(sliderInput("cutoff","Cut off:",
                       min = 0,max = 100,value = 50)),
       box(
-        h1(textOutput("correctcount")))
+        h2(textOutput("accuracy")))
     ),
     box(plotOutput("barchart")),
-    box(h1(textOutput("falseNegatives")),
-           h1(textOutput("falsePositives"))),
+    box(h3(textOutput("precision")),
+           h3(textOutput("hitrate"))),
     
     box(plotOutput("confusionPlot"))
   )

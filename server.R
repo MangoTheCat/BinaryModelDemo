@@ -71,24 +71,48 @@ shinyServer(function(input, output) {
     
   })
   
-  output$correctcount <- renderText({
+  output$accuracy <- renderText({
     
-    paste0("Correct Predictions: \n", sum(predictions()==myData$Actual_), "/", length(myData$Actual_))
+    paste0("Accuracy: Overall, ", 
+           (sum(predictions()==myData$Actual_)/ length(myData$Actual_))*100,
+           "% of predictions are correct")
+  
+  })
+
+  output$precision <- renderText({
+    
+    currPredictions <- predictions()
+    
+    countCorrectYes <- myData$Name[currPredictions==myData$Actual_ & currPredictions]
+    falsePositives <- myData$Name[currPredictions & !myData$Actual_]
+    precision <- round(((length(countCorrectYes)/(length(countCorrectYes)+length(falsePositives)))*100),0)
+
+    ifelse(is.nan(precision),
+           paste0("Precision could not be calculated as no people predicted to leave"),
+           paste0("Precision: ", 
+                  precision,
+                  "% of the people we predicted to leave did actually leave") )
+    
+    
+    
+   
   
   })
   
-  output$falsePositives <- renderText({
+  
+  output$hitrate <- renderText({
     
-    predictions <- myData$Predicted >= input$cutoff
-    paste0("Of those who have left, ", 
-           sum(predictions()==myData$Actual_ & !myData$Actual_)* 100/sum(!myData$Actual_), "% are correct")
+    currPredictions = predictions()
+    countCorrectYes <- myData$Name[currPredictions==myData$Actual_ & currPredictions]
+    falseNegatives <- myData$Name[!currPredictions & myData$Actual_]
+    
+    
+    paste0("Hit Rate: ",
+           (length(countCorrectYes)/(length(countCorrectYes)+length(falseNegatives)))*100,
+      "% of the people that did actually leave we predicted would leave") 
     
   })
   
-  output$falseNegatives <- renderText({
-    
-    paste0("Of those who have stayed, ", 
-           sum(predictions()==myData$Actual_ & myData$Actual_) * 100 / sum(myData$Actual_), "% are correct")
-    
-  })
+ 
+  
 })
